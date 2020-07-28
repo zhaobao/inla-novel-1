@@ -10,6 +10,7 @@
 
 <style scoped>
 .line-space-16 {
+    background-color: white;
     height: 16px;
 }
 </style>

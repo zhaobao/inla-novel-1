@@ -48,5 +48,8 @@
 <style scoped>
     .bottom-nav {
         font-weight: bold;
+        max-width: 480px;
+        left: 50%;
+        transform: translateX(-50%)
     }
 </style>

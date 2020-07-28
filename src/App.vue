@@ -39,6 +39,12 @@
     }
 </script>
 
+<style>
+    body {
+        background: aliceblue;
+    }
+</style>
+
 <style lang="scss">
     @import "assets/scss/var";
 
