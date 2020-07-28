@@ -12,7 +12,6 @@ instance.interceptors.request.use(function (config) {
         config.data = {};
     }
     let auth = GetAuthToken();
-    console.log('instance.interceptors.request', auth);
     if (auth && Object.prototype.hasOwnProperty.call(auth, "_at_")) {
         config.data['auth_token'] = auth['_at_']
     }
@@ -22,7 +21,7 @@ instance.interceptors.request.use(function (config) {
 });
 
 // test token
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmMiOiJkeWZua2ciLCJleHAiOjE1OTYwOTg5MDR9.4vfCP3VaLe3THLDQsbTICRf73oWuPafKGaaztJoIDGM
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmMiOiIwZDZhZmI1MyIsImRlc2MiOiJub3ZlbCBmb3IgcmV2aWV3IiwiZXhwIjoxNTk4NDk2MTY0fQ.MXBq9nZdPnSW-ZizTHIEkZH-GKy7Jfa5Z9z_QgODw3I
 instance.interceptors.response.use(function (response) {
     console.log('instance.interceptors.response', response);
     if (response.data && response.data.code === CODES.SUCCESS) {

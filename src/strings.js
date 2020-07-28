@@ -11,18 +11,17 @@ export default {
         'menu_me': 'Me',
         'menu_about': 'About',
         'menu_book': 'Bookshelf',
-        'menu_explorer': 'Explorer',
+        'menu_item_all': 'All',
         'drawer_phone': 'Phone',
         'subscribe_time': 'Time',
         'drawer_info': 'Info',
-        'title_top_games': 'Top Games',
-        'title_new_games': 'New Games',
-        'explorer': 'Explorer',
         'recommend_for_you': 'Recommend for you',
         'recommend': 'Recommend',
         'rank': 'Rank',
         'favorite': 'Favorite',
         'read': 'Read',
-        'read_continue': 'Read Continue'
+        'read_continue': 'Read Continue',
+        'sort_by': 'Sort By',
+        'menu_category': 'Category'
     }
 }

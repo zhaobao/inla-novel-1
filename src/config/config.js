@@ -19,7 +19,7 @@ export const COLORS = {
         ['#a8c0ff', '#3f2b96'],
     ],
     tags: [
-        '#12c2e9', '#c471ed', '#f64f59', '#ee9ca7', '#ffdde1', '#a8c0ff',
+        '#12c2e9', '#c471ed', '#f64f59', '#ee9ca7', '#ffdde1',
         '#3f2b96', '#12c2e9', '#c471ed', '#f64f59', '#a8c0ff', '#3f2b96'
     ],
 };

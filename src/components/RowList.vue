@@ -48,11 +48,9 @@
             };
         },
         mounted() {
-            console.log("RowList.vue mounted", this.showRightText, !!this.rightTextKey)
         },
         watch: {
             reload: function () {
-                console.log('reload.list');
                 this.finished = false;
                 this.loading = true;
                 this.data = [];

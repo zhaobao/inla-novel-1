@@ -3,7 +3,7 @@ import instance from "./instance";
 export let AuthCheck = function () {
     if (process.env.NODE_ENV === "development") {
         return new Promise((resolve) => {
-            resolve({data: {code: 200}});
+            resolve({data: {code: 200, data: '{"en":{"site_title":"Novel East"}}'}});
         })
     }
     return instance.post("/assets/auth/verify")

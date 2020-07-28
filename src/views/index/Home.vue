@@ -2,8 +2,8 @@
     <div class="home">
         <BigHeader :title="$i18n('site_title')"/>
         <van-dropdown-menu>
-            <van-dropdown-item v-model="category" :options="categories" @change="changeCategory"/>
-            <van-dropdown-item v-model="sort" :options="sorts" @change="changeSort"/>
+            <van-dropdown-item :title="$i18n('menu_category')" v-model="category" :options="categories" @change="changeCategory"/>
+            <van-dropdown-item :title="$i18n('sort_by')" v-model="sort" :options="sorts" @change="changeSort"/>
         </van-dropdown-menu>
         <div>
             <LineSpace/>
@@ -40,7 +40,7 @@
                 data.sort((a, b) => {
                     return b['count'] - a['count'];
                 });
-                data.unshift({'text': 'ALL', value: 'all'});
+                data.unshift({'text': this.$i18n('menu_item_all'), value: 'all'});
                 this.categories = data;
                 this.$store.dispatch(FETCH_BOOKS).then(() => {
                     this.loading = false;
@@ -58,11 +58,11 @@
                 sort: 'new',
                 refresh: false,
                 categories: [
-                    {'text': 'ALL', value: 'all'}
+                    {'text': this.$i18n('menu_item_all'), value: 'all'}
                 ],
                 sorts: [
-                    {text: 'New', value: 'new'},
-                    {text: 'Hot', value: 'hot'},
+                    {text: this.$i18n('new'), value: 'new'},
+                    {text: this.$i18n('hot'), value: 'hot'},
                 ],
             }
         },
@@ -79,7 +79,6 @@
                 this.$router.push('/book/' + item['book_id']);
             },
             loadRows: function () {
-                console.log('trigger.loadRows');
                 let that = this;
                 return new Promise((resolve) => {
                     let output;

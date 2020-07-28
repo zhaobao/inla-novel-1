@@ -10,17 +10,18 @@ export default {
                 return key;
             }
 
-            let localConf = QueryItem(STORAGE_PREFIX + "_conf");
-            if (localConf) {
+            let localStrings = QueryItem(STORAGE_PREFIX + "_conf");
+            if (localStrings) {
                 try {
-                    localConf = JSON.parse(localConf);
-                } catch(e) {
+                    localStrings = JSON.parse(localStrings);
+                } catch (e) {
                     // ignore
                 }
             }
-            if (localConf) {
-                if (!Object.prototype.hasOwnProperty.call(strings, lang) && !Object.prototype.hasOwnProperty.call(strings[lang], key)) {
-                    return strings[lang][key];
+            if (localStrings) {
+                if (Object.prototype.hasOwnProperty.call(localStrings, lang) &&
+                    Object.prototype.hasOwnProperty.call(localStrings[lang], key)) {
+                    return localStrings[lang][key];
                 }
             }
             if (!Object.prototype.hasOwnProperty.call(strings, lang)) {
