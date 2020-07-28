@@ -1,5 +1,8 @@
 export let SaveItem = function (key, value) {
     try {
+        if (typeof (value) === 'object') {
+            value = JSON.stringify(value)
+        }
         window.localStorage.setItem(key, value);
     } catch (e) {
         // ignore

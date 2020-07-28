@@ -54,8 +54,9 @@
                 FetchChapters(this.book_id, this.chapter_index*1).then((resp) => {
                     if (resp.data.code === CODES.SUCCESS) {
                         console.log('FetchChapters', resp);
-                        this.iframe_src = HOST + "/" + resp.data.data[0]['book_id'] +
-                            "/" + resp.data.data[0]['chapter_index'] + "_" + resp.data.data[0]['token'] + ".txt";
+                        this.iframe_src = HOST + "/" + resp.data.data[0]['book_id'] + "/" +
+                            resp.data.data[0]['chapter_index'] + "_" +
+                            resp.data.data[0]['token'] + ".txt.html";
                     }
                     this.loading = false;
                 });
@@ -71,7 +72,6 @@
                     this.$notify({type: 'primary', message: 'Add bookmark success'});
                 } else if (index === 1) {
                     this.$router.push('/read/' + this.book_id + '/' + (this.chapter_index * 1 + 1));
-                    window.location.reload();
                 } else {
                     this.$router.push('/');
                 }
