@@ -9,7 +9,7 @@
 <script>
     import GridRectList from "../components/GridRectList";
     import BackHeader from "../components/BackHeader";
-    import {GET_GAME_BY_ID, GET_GAMES_TOP_LIST} from "../store/game/game";
+    import {GET_BOOK_DETAIL, GET_TOP_BOOKS} from "../store/book/book";
     import {Toast} from "vant";
 
     export default {
@@ -29,7 +29,7 @@
                         resolve({items: [], hasMore: false});
                     }
                     setTimeout(function () {
-                        resolve({items: that.$store.getters[GET_GAMES_TOP_LIST](that.size, that.index), hasMore: true});
+                        resolve({items: that.$store.getters[GET_TOP_BOOKS](that.size, that.index), hasMore: true});
                         that.index++;
                     }, 1000)
                 })
@@ -40,7 +40,7 @@
                     duration: 0,
                     forbidClick: true,
                 });
-                window.location.href = this.$store.getters[GET_GAME_BY_ID](gid).src;
+                window.location.href = this.$store.getters[GET_BOOK_DETAIL](gid).src;
             }
         }
     }

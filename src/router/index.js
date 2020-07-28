@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 const routes = [
     {
         path: '/',
-        redirect: '/index/a/home/recommend'
+        redirect: '/index/a/home'
     },
     {
         path: '/index/:m',
@@ -20,38 +20,32 @@ const routes = [
                 name: 'Home',
                 props: true,
                 component: Home,
-                children: [
-                    {
-                        path: 'recommend',
-                        name: 'Recommend',
-                        props: true,
-                        component: () => import('../views/index/home/Recommend.vue')
-                    },
-                    {
-                        path: 'hot',
-                        name: 'Hot',
-                        props: true,
-                        component: () => import('../views/index/home/Hot.vue')
-                    },
-                    {
-                        path: 'rank',
-                        name: 'Rank',
-                        props: true,
-                        component: () => import('../views/index/home/Rank.vue')
-                    },
-                    {
-                        path: 'cate/:name',
-                        name: 'Cate',
-                        props: true,
-                        component: () => import('../views/index/home/Cate.vue')
-                    }
-                ],
-            },
-            {
-                path: 'explorer',
-                name: 'Explorer',
-                props: true,
-                component: () => import('../views/index/Explorer.vue')
+                // children: [
+                //     {
+                //         path: 'recommend',
+                //         name: 'Recommend',
+                //         props: true,
+                //         component: () => import('../views/index/home/Recommend.vue')
+                //     },
+                //     {
+                //         path: 'hot',
+                //         name: 'Hot',
+                //         props: true,
+                //         component: () => import('../views/index/home/Hot.vue')
+                //     },
+                //     {
+                //         path: 'rank',
+                //         name: 'Rank',
+                //         props: true,
+                //         component: () => import('../views/index/home/Rank.vue')
+                //     },
+                //     {
+                //         path: 'cate/:name',
+                //         name: 'Cate',
+                //         props: true,
+                //         component: () => import('../views/index/home/Cate.vue')
+                //     }
+                // ],
             },
             {
                 path: 'book',
@@ -80,13 +74,13 @@ const routes = [
         component: () => import('../views/Grid.vue')
     },
     {
-        path: '/comic/:comic_id',
+        path: '/book/:book_id',
         name: 'Detail',
         props: true,
         component: () => import('../views/Detail.vue')
     },
     {
-        path: '/read/:comic_id/:chapter_index',
+        path: '/read/:book_id/:chapter_index',
         name: 'Read',
         props: true,
         component: () => import('../views/Read.vue')

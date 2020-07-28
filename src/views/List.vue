@@ -9,7 +9,7 @@
 <script>
     import BackHeader from "../components/BackHeader";
     import RowList from "../components/RowList";
-    import {GET_GAME_BY_ID, GET_GAMES_CAT, GET_GAMES_HOT, GET_GAMES_NEW} from "../store/game/game";
+    import {GET_BOOK_DETAIL, GET_CATE_BOOKS, GET_TOP_BOOKS, GET_RANK_BOOKS} from "../store/book/book";
     import {Toast} from "vant";
     import {CapitalizeFirstLetter} from "../utils/str";
 
@@ -30,12 +30,12 @@
             getAction: function () {
                 switch (this.group) {
                     case "hot":
-                        return this.$store.getters[GET_GAMES_HOT]
+                        return this.$store.getters[GET_RANK_BOOKS]
                     case "new":
-                        return this.$store.getters[GET_GAMES_NEW]
+                        return this.$store.getters[GET_TOP_BOOKS]
                     default:
                         return function (size, index) {
-                            return this.$store.getters[GET_GAMES_CAT](this.group, size, index)
+                            return this.$store.getters[GET_CATE_BOOKS](this.group, size, index)
                         }.bind(this)
                 }
             },
@@ -57,7 +57,7 @@
                     duration: 0,
                     forbidClick: true,
                 });
-                window.location.href = this.$store.getters[GET_GAME_BY_ID](item.game_id).src;
+                window.location.href = this.$store.getters[GET_BOOK_DETAIL](item.game_id).src;
             }
         }
     }

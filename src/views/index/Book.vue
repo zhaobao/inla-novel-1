@@ -16,7 +16,7 @@
     import RowList from "../../components/RowList";
     import {QueryItem} from "../../utils/storage";
     import {KEY_BOOKMARK_PREFIX} from "../../config/config";
-    import {FETCH_BOOKS, FETCH_GENRES, GET_COMIC_DETAIL} from "../../store/comic/comic";
+    import {FETCH_BOOKS, FETCH_GENRES, GET_BOOK_DETAIL} from "../../store/book/book";
 
     export default {
         name: "Book",
@@ -35,11 +35,10 @@
                             let bookmarks = JSON.parse(saved);
                             let uniqTest = [];
                             for (let i = 0, len = bookmarks.length; i < len; i++) {
-                                let cid = bookmarks[i].comic_id;
+                                let cid = bookmarks[i].book_id;
                                 if (uniqTest.indexOf(cid) < 0) {
-                                    items.push(this.$store.getters[GET_COMIC_DETAIL](cid));
+                                    items.push(this.$store.getters[GET_BOOK_DETAIL](cid));
                                     uniqTest.push(cid);
-                                    console.log('uniq.test', cid)
                                 }
                             }
                             this.items = items;
@@ -58,7 +57,7 @@
         },
         methods: {
             clickRow: function (item) {
-                this.$router.push('/comic/' + item['comic_id']);
+                this.$router.push('/book/' + item['book_id']);
             },
             load: function () {
                 return new Promise((resolve) => {

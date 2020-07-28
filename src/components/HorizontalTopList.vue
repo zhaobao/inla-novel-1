@@ -3,7 +3,7 @@
         <van-grid :column-num="items && items.length" :gutter="10" direction="horizontal" :style="containerStyle">
             <van-grid-item v-for="(item, index) in items" :key="index" class="grid-item-horizontal">
                 <template #default>
-                    <TopItem2 :id="item.game_id"
+                    <TopItem2 :id="item.book_id"
                               :icon="item.icon"
                               :title="item.name" @clickItem="onClickItem"/>
                 </template>
@@ -39,6 +39,7 @@
     .grid-item-horizontal {
         .van-grid-item__content {
             background: transparent;
+
             &::after {
                 border-color: transparent;
             }

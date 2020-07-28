@@ -1,78 +1,120 @@
 <template>
-    <div>
-        <BigHeader :title="$i18n('site_title')" :with-draw="false"/>
-        <TopNav :items="menus" :show="true" :default-active="active" @clickTabItem="change1">
-            <template #ct>
-                <router-view></router-view>
-            </template>
-        </TopNav>
+    <div class="home">
+        <BigHeader :title="$i18n('site_title')"/>
+        <van-dropdown-menu>
+            <van-dropdown-item v-model="category" :options="categories" @change="changeCategory"/>
+            <van-dropdown-item v-model="sort" :options="sorts" @change="changeSort"/>
+        </van-dropdown-menu>
+        <div>
+            <LineSpace/>
+            <van-loading v-if="loading"/>
+            <RowList v-if="!loading" :load-data-func="loadRows"
+                     class="home-row-list" :left-icon-size="80"
+                     :reload="refresh"
+                     @onRowItemClick="clickRowList"/>
+        </div>
     </div>
 </template>
 
 <script>
+    import {FETCH_BOOKS, FETCH_GENRES, GET_CATE_BOOKS, GET_RANK_BOOKS, GET_TOP_BOOKS,} from "../../store/book/book";
+    import RowList from "../../components/RowList";
     import BigHeader from "../../components/BigHeader";
-    import {FETCH_GENRES} from "../../store/comic/comic";
-    import TopNav from "../../components/TopNav";
+    import LineSpace from "../../components/LineSpace";
+
+    const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
     export default {
-        name: "Home",
-        components: {
-            TopNav,
-            BigHeader,
-        },
+        name: "Recommend",
+        components: {LineSpace, BigHeader, RowList},
         beforeCreate() {
-            this.$store.dispatch(FETCH_GENRES).then((resp) => {
-                resp.data.sort((a, b) => {
-                    return b['book_count'] - a['book_count'];
-                })
-                this.option2 = resp.data.filter((item) => {
-                    return item['genre_id'] !== '1802020f' &&
-                        item['genre_id'] !== '6a7ce9c9' &&
-                        item['genre_id'] !== 'e7ddf9ee' &&
-                        item['genre_id'] !== '4a76f9ee';
-                }).map((item) => {
-                    item['value'] = '/index/a/home/cate/' + item['genre_id'];
+            this.$store.dispatch(FETCH_GENRES).then((data) => {
+                if (!data) {
+                    return;
+                }
+                data = data.map((item) => {
                     item['text'] = item['name'];
+                    item['value'] = item['genre_id'];
                     return item;
                 });
-                this.menus = [
-                    {text: this.$i18n('recommend'), value: "/index/a/home/recommend"},
-                    {text: this.$i18n('rank'), value: "/index/a/home/rank"},
-                    {text: this.$i18n('hot'), value: "/index/a/home/hot"},
-                ].concat(this.option2);
-            })
-        },
-        created() {
-            this.active = window.location.hash.substr(1);
+                data.sort((a, b) => {
+                    return b['count'] - a['count'];
+                });
+                data.unshift({'text': 'ALL', value: 'all'});
+                this.categories = data;
+                this.$store.dispatch(FETCH_BOOKS).then(() => {
+                    this.loading = false;
+                    this.banners = this.$store.getters[GET_RANK_BOOKS](0, 3);
+                });
+            });
         },
         data() {
             return {
-                active: '/index/a/home/recommend',
-                menus: [],
+                number: 0,
+                size: 8,
+                loading: true,
+                iconWidth: width / 3 - 16,
+                category: 'all',
+                sort: 'new',
+                refresh: false,
+                categories: [
+                    {'text': 'ALL', value: 'all'}
+                ],
+                sorts: [
+                    {text: 'New', value: 'new'},
+                    {text: 'Hot', value: 'hot'},
+                ],
             }
         },
         methods: {
-            change1: function (value) {
-                this.$router.push(value);
+            changeCategory() {
+                this.number = 0;
+                this.refresh = !this.refresh;
+            },
+            changeSort() {
+                this.number = 0;
+                this.refresh = !this.refresh;
+            },
+            clickRowList: function (item) {
+                this.$router.push('/book/' + item['book_id']);
+            },
+            loadRows: function () {
+                console.log('trigger.loadRows');
+                let that = this;
+                return new Promise((resolve) => {
+                    let output;
+                    if (that.category === 'all') {
+                        if (that.sort === 'hot') {
+                            output = that.$store.getters[GET_RANK_BOOKS](that.number, that.size);
+                        } else {
+                            output = that.$store.getters[GET_TOP_BOOKS](that.number, that.size);
+                        }
+                    } else {
+                        output = that.$store.getters[GET_CATE_BOOKS](that.category, (a, b) => {
+                            if (that.sort === 'hot') {
+                                return a.chapter_count - b.chapter_count;
+                            } else {
+                                return a.brief.length - b.brief.length;
+                            }
+                        }, that.number, that.size);
+                    }
+                    if (output.length === 0) {
+                        resolve({items: [], hasMore: false});
+                        return;
+                    }
+                    resolve({
+                        items: output,
+                        hasMore: true
+                    });
+                    that.number++;
+                })
             }
-        },
+        }
     }
 </script>
 
 <style scoped>
-    .top-entry-container {
-        padding: 1em;
-    }
-
-    .top-items-group {
-        padding: 2em 1em 1em 1em;
-    }
-
-    .group-recommend {
-        margin-bottom: 66px;
-    }
-
-    .home-row-list {
-        padding: 1em;
+    .home {
+        margin-bottom: 3em;
     }
 </style>

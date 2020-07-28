@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Games from './game/game';
 import Auth from './auth/auth';
-import Comic from './comic/comic'
+import Book from './book/book'
 
 Vue.use(Vuex)
 
@@ -23,15 +22,7 @@ export default new Vuex.Store({
     },
     actions: {},
     modules: {
-        games: Games,
         auth: Auth,
-        comic: Comic
+        book: Book
     }
 })
-
-/*
-this.$store.getters[GET_GAME_BY_ID](this.gameId);
-this.$store.dispatch(FETCH_GAME_BANNERS).then((items) => {
-  this.banners = items;
-})
- */

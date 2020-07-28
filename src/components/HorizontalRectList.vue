@@ -3,7 +3,8 @@
         <van-grid :column-num="items && items.length" :gutter="10" direction="horizontal" :style="containerStyle">
             <van-grid-item v-for="(item, index) in items" :key="index" class="grid-item">
                 <template #default>
-                    <RectItem :id="item.comic_id" :icon-src="item.cover" :title="item.name" :icon-size="iconSize" @onClickGrid="onClickItem(item)"/>
+                    <RectItem :id="item.book_id" :icon-src="item.cover"
+                              :title="item.name" :icon-size="iconSize" @onClickGrid="onClickItem(item)"/>
                 </template>
             </van-grid-item>
         </van-grid>

@@ -15,7 +15,7 @@
     import {SAVE_PAIRS} from "./store/auth/auth";
     import {AuthCheck} from "./api/action";
     import {SaveItem} from "./utils/storage";
-    import {STORAGE_PREFIX} form "./config/config";
+    import {CODES, STORAGE_PREFIX} from "./config/config";
 
     export default {
         beforeCreate() {
@@ -23,7 +23,7 @@
         },
         created() {
             AuthCheck().then((resp) => {
-                if (resp.data.code === 200) {
+                if (resp.data.code === CODES.SUCCESS) {
                     SaveItem(STORAGE_PREFIX + '_conf', resp.data.data);
                     this.loading = false;
                 } else {
@@ -51,6 +51,7 @@
         max-width: 480px;
         margin: 0 auto;
     }
+
     .wrapper {
         display: flex;
         align-items: center;

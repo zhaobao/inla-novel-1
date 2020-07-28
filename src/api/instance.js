@@ -1,4 +1,6 @@
 import {GetAuthToken} from "../utils/uri";
+import {CODES, STORAGE_PREFIX} from "../config/config";
+import {SaveItem} from "../utils/storage";
 
 const axios = require('axios');
 const instance = axios.create();
@@ -19,8 +21,14 @@ instance.interceptors.request.use(function (config) {
     return Promise.reject(error);
 });
 
+// test token
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmMiOiJkeWZua2ciLCJleHAiOjE1OTYwOTg5MDR9.4vfCP3VaLe3THLDQsbTICRf73oWuPafKGaaztJoIDGM
 instance.interceptors.response.use(function (response) {
-    if (response.data && response.data.code === 200) {
+    console.log('instance.interceptors.response', response);
+    if (response.data && response.data.code === CODES.SUCCESS) {
+        if (Object.prototype.hasOwnProperty.call(response.headers, 'max-age')) {
+            SaveItem(STORAGE_PREFIX + '_' + response.config.url, response.data.data);
+        }
         if (response.data.data && typeof (response.data.data) === "string") {
             response.data.data = JSON.parse(response.data.data)
         }

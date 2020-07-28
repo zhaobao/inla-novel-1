@@ -6,10 +6,10 @@
             @load="onLoad"
     >
         <RowItem v-for="(item, index) in data"
-                 :key="item.comic_id + index"
+                 :key="item.book_id + index"
                  :title="item.name ? item.name : '[title]'"
                  :label="item.category"
-                 :label_color="'rgb('+item.primary_color+')'"
+                 :label_color="item.primary_color"
                  :label_more="item.name_alter"
                  :left-icon-size="leftIconSize"
                  :right-icon-name="rightIcon"
@@ -37,7 +37,8 @@
             rightTextKey: {type: String, default: ''},
             rightTextStyle: {type: String},
             rightIcon: {type: String, default: "arrow"},
-            leftIconSize: {type: [String, Number], default: 66}
+            leftIconSize: {type: [String, Number], default: 66},
+            reload: {type: Boolean, default: false},
         },
         data() {
             return {
@@ -48,6 +49,15 @@
         },
         mounted() {
             console.log("RowList.vue mounted", this.showRightText, !!this.rightTextKey)
+        },
+        watch: {
+            reload: function () {
+                console.log('reload.list');
+                this.finished = false;
+                this.loading = true;
+                this.data = [];
+                this.onLoad();
+            }
         },
         methods: {
             onLoad() {

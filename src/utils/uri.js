@@ -21,7 +21,6 @@ function parseQuery() {
 function authInfo() {
     let cacheKey = STORAGE_PREFIX + '_at_';
     let local = QueryItemCheckExpiration(cacheKey);
-    console.log('get_auth', cacheKey, local)
     if (local) {
         return JSON.parse(local);
     }

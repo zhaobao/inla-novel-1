@@ -27,7 +27,7 @@
                     <van-loading v-if="loading"/>
                     <van-grid :column-num="1" :gutter="10" v-if="!loading">
                         <van-grid-item v-for="item in pageData()" icon="null"
-                                       @click="clickGrid(item.comic_id, item.chapter_index)"
+                                       @click="clickGrid(item.book_id, item.chapter_index)"
                                        :text="item.title+''" :key="item.chapter_index" :dot="item === 6"/>
                     </van-grid>
                     <van-pagination
@@ -45,7 +45,7 @@
             </van-cell-group>
             <div class="detail-guess">
                 <van-cell title="Guess your like"/>
-                <RowList :load-data-func="loadItems"/>
+                <RowList :load-data-func="loadItems" @onRowItemClick="clickRow"/>
             </div>
         </div>
     </div>
@@ -53,8 +53,7 @@
 
 <script>
     import BackHeader from "../components/BackHeader";
-    import {FETCH_BOOKS, FETCH_GENRES, GET_COMIC_DETAIL, GET_RAND_BOOKS} from "../store/comic/comic";
-    import {FetchBookChapters} from "../api/action";
+    import {FETCH_BOOKS, FETCH_GENRES, GET_BOOK_DETAIL, GET_RAND_BOOKS} from "../store/book/book";
     import {AppendItem, QueryItem} from "../utils/storage";
     import {KEY_BOOKMARK_PREFIX} from "../config/config";
     import RowList from "../components/RowList";
@@ -63,7 +62,7 @@
         name: "Detail",
         components: {RowList, BackHeader},
         props: {
-            comic_id: {type: String, required: true}
+            book_id: {type: String, required: true}
         },
         created() {
             this.fetchData();
@@ -96,7 +95,7 @@
             if (saved) {
                 let bookmarks = JSON.parse(saved);
                 for (let i = 0, len = bookmarks.length; i < len; i++) {
-                    if (bookmarks[i].comic_id === this.comic_id) {
+                    if (bookmarks[i].book_id === this.book_id) {
                         this.historyInfo = bookmarks[i];
                     }
                 }
@@ -104,29 +103,30 @@
         },
         methods: {
             fetchData() {
-                console.log('fetch')
                 this.loading = true;
                 this.$store.dispatch(FETCH_GENRES).then(() => {
                     this.$store.dispatch(FETCH_BOOKS).then(() => {
-                        FetchBookChapters(this.comic_id).then((resp) => {
-                            if (resp.data.code === 200) {
-                                this.chapters = resp.data.data;
-                                this.totalItems = this.chapters.length;
-                            }
-                            this.loading = false;
-                        });
+                        this.loading = false;
                         this.item = [];
-                        this.item = this.$store.getters[GET_COMIC_DETAIL](this.comic_id);
-                        console.log('.....detail', this.comic_id, this.item)
+                        this.item = this.$store.getters[GET_BOOK_DETAIL](this.book_id);
+                        this.totalItems = this.item['chapter_count'];
+                        this.chapters = [];
+                        for (let i = 1; i <= this.totalItems; i++) {
+                            this.chapters.push({
+                                book_id: this.book_id,
+                                chapter_index: i,
+                                title: 'chapter-' + i,
+                            });
+                        }
                     });
                 })
             },
             clickLove() {
                 if (!this.historyInfo) {
                     AppendItem(KEY_BOOKMARK_PREFIX, {
-                        comic_id: this.comic_id,
+                        book_id: this.book_id,
                         chapter_id: '1',
-                        id: this.comic_id,
+                        id: this.book_id,
                     })
                 }
                 this.$toast({type: 'success', message: 'saved'});
@@ -134,10 +134,13 @@
             },
             clickRead() {
                 let history_chapter_id = this.historyInfo ? this.historyInfo['chapter_id'] : '1';
-                this.$router.push('/read/' + this.comic_id + '/' + history_chapter_id);
+                this.$router.push('/read/' + this.book_id + '/' + history_chapter_id);
             },
-            clickGrid(comic_id, chapter_index) {
-                this.$router.push('/read/' + comic_id + '/' + chapter_index);
+            clickGrid(book_id, chapter_index) {
+                this.$router.push('/read/' + book_id + '/' + chapter_index);
+            },
+            clickRow(item) {
+                this.$router.push('/book/' + item['book_id']);
             },
             pageData() {
                 let start = this.currentPage - 1;
@@ -153,7 +156,7 @@
                         let hasMore = false;
                         let data = that.$store.getters[GET_RAND_BOOKS](0, 6);
                         data = data.filter((item) => {
-                            return item.comid_id !== that.comic_id;
+                            return item.comid_id !== that.book_id;
                         });
                         resolve({
                             items: data,
