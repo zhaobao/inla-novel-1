@@ -10,13 +10,13 @@ export let AuthCheck = function () {
 }
 
 export let FetchGenres = function () {
-    return instance.post("/novel/genres")
+    return instance.post("/anovel/genres")
 }
 
 export let FetchBooks = function () {
-    return instance.post("/novel/books")
+    return instance.post("/anovel/books")
 }
 
 export let FetchChapters = function (book_id, chapter_index) {
-    return instance.post("/novel/chapters", {book_id: book_id, chapter_index: chapter_index})
+    return instance.post("/anovel/chapters", {book_id: book_id, chapter_index: chapter_index})
 }
