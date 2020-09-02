@@ -1,14 +1,13 @@
 import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import i18n from "./plugin/i18n/plugin"
-import {LANG} from "./config/config";
-import theme from "./plugin/theme/setup"
-import "./plugin/vant/init"
-import "./utils/console";
+import App from '@/App.vue'
+import router from '@/router'
+import store from '@/store'
+import i18n from "@/plugin/i18n/plugin"
+import theme from "@/plugin/theme/setup"
+import "@/plugin/vant/init"
+import "@/utils/console";
 
-Vue.use(i18n, {defaultLanguage: LANG})
+Vue.use(i18n, {defaultLanguage: ''})
 Vue.use(theme, {})
 
 Vue.config.productionTip = false

@@ -1,7 +1,7 @@
 .PHONY: deploy
 
 deploy:
-	npm run build && aws s3 cp dist/ s3://inla-web-novel-1 --recursive \
+	npm run build && aws s3 cp dist/ s3://inla-web-portal/d44282f1 --recursive \
                        --exclude "*" \
                        --include "*.css" \
                        --include "*.eot" \

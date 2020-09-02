@@ -1,10 +1,10 @@
-import strings from "../../strings";
-import {QueryItem} from "../../utils/storage";
-import {STORAGE_PREFIX} from "../../config/config";
+import strings from "@/strings";
+import {QueryItem} from "@/utils/storage";
+import {STORAGE_PREFIX} from "@/config/config";
 
 export default {
     install: function (Vue, options) {
-        var lang = options['defaultLanguage'];
+        console.log(options);
         Vue.prototype.$i18n = function (key) {
             if (key.length === 0) {
                 return key;
@@ -19,18 +19,14 @@ export default {
                 }
             }
             if (localStrings) {
-                if (Object.prototype.hasOwnProperty.call(localStrings, lang) &&
-                    Object.prototype.hasOwnProperty.call(localStrings[lang], key)) {
-                    return localStrings[lang][key];
+                if (Object.prototype.hasOwnProperty.call(localStrings, key)) {
+                    return localStrings[key];
                 }
             }
-            if (!Object.prototype.hasOwnProperty.call(strings, lang)) {
+            if (!Object.prototype.hasOwnProperty.call(strings, key)) {
                 return '[not.in.strings]' + key;
             }
-            if (!Object.prototype.hasOwnProperty.call(strings[lang], key)) {
-                return '[not.in.strings]' + key;
-            }
-            return strings[lang][key];
+            return strings[key];
         }
     }
 }

@@ -1,4 +1,3 @@
-export const LANG = 'en';
 export const HOST = process.env.VUE_APP_CF_HOST;
 export const KEY_BOOKMARK_PREFIX = "comic_bookmarks"
 export const STORAGE_PREFIX = process.env.VUE_APP_NAME;
